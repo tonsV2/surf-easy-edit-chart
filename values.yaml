@@ -5,14 +5,17 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: tons/surf-easy-edit:latest
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+database: {}
+#  url: jdbc:postgresql://hostname:5432/database
+#  username: username
+#  password: password
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -38,7 +41,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false
