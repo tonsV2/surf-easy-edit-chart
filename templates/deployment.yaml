@@ -1,7 +1,8 @@
+{{- $fullname := include "easy-edit.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "easy-edit.fullname" . }}
+  name: {{ $fullname }}
   labels:
     {{- include "easy-edit.labels" . | nindent 4 }}
 spec:
@@ -37,11 +38,20 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: kubernetes
             - name: DATABASE_URL
-              value: {{ .Values.database.url | quote }}
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_URL
+                  name: {{ $fullname }}
             - name: DATABASE_USERNAME
-              value: {{ .Values.database.username }}
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_USERNAME
+                  name: {{ $fullname }}
             - name: DATABASE_PASSWORD
-              value: {{ .Values.database.password }}
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: {{ $fullname }}
           ports:
             - name: http
               containerPort: 8080
