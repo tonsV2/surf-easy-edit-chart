@@ -11,6 +11,17 @@ curl --user "$REPOSITORY_AUTH_USER:$REPOSITORY_AUTH_PASS" \
         https://helm-charts.fitfit.dk/api/charts
 ```
 
+# Backup
+## Forward Postgresql port to localhost
+```bash
+k port-forward -n surf-easy-edit-prod surf-easy-edit-database-postgresql-0 5432:5432
+```
+
+## Dump database
+```bash
+pg_dump -h localhost -p 5432 -U easyedit easyedit > easyedit-(date "+%Y.%m.%d-%H.%M.%S").bak
+```
+
 # Migrate from Heroku to Kubernetes
 ## Backup
 ```bash
